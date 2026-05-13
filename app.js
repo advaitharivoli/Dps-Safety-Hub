@@ -154,7 +154,10 @@ function handleSubmit() {
     const name = document.getElementById('student-name').value;
     const desc = document.getElementById('student-desc').value;
     const place = document.getElementById('incident-place').value.trim();
+<<<<<<< HEAD
     const date = document.getElementById('incident-date').value;
+=======
+>>>>>>> 5ff8486b82d2d6ceaf10572986d5f6c9ed613537
     const time = document.getElementById('incident-time').value;
 
     if (!name || !studentDatabase[admNo]) {
@@ -175,7 +178,10 @@ function handleSubmit() {
         studentClass: studentDatabase[admNo].class,
         description: desc || "No description provided.",
         place: place,
+<<<<<<< HEAD
         date: date || "Not specified",
+=======
+>>>>>>> 5ff8486b82d2d6ceaf10572986d5f6c9ed613537
         time: time || "Not specified",
         status: 'pending',
         takenOver: false,
@@ -407,7 +413,13 @@ function handleTakeOver() {
     if (!currentUser || !selectedIncidentId) return;
     const incident = incidents[selectedIncidentId];
     if (!incident || incident.status === 'solved') return;
+<<<<<<< HEAD
     // Removed level restrictions to allow any responsible staff member to take over the case at any time.
+=======
+    const isFirstReportLevel = currentUser.isFirstReport && !incident.escalatedTo;
+    const isEscalatedLevel = incident.escalatedTo === currentUser.role;
+    if (!isFirstReportLevel && !isEscalatedLevel) { alert("This case is not at your level for takeover."); return; }
+>>>>>>> 5ff8486b82d2d6ceaf10572986d5f6c9ed613537
     if (incident.takenOver && incident.handler !== currentUser.name) { alert(`Already handled by ${incident.handler}.`); return; }
     if (confirm(`Do you want to take over?`)) {
         incident.takenOver = true; incident.handler = currentUser.name;
