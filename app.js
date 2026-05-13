@@ -322,6 +322,37 @@ function displayIncident(incident) {
 
     updateBioScreen(student.name, incident.admNo, student.class, student.teacher, student.coordinator, student.sm, student.hm, student.vp);
 
+    // Dynamic Escalation Dropdown based on Grade
+    const grade = parseInt(student.class);
+    const teacherDropdown = document.getElementById('escalation-level');
+    const smDropdown = document.getElementById('escalation-level-sm');
+
+    if (teacherDropdown) {
+        let options = `<option value="">-- Select Authority to Escalate --</option>
+                       <option value="senior-mistress">Senior Mistress</option>`;
+        
+        if (!(grade >= 3 && grade <= 5)) {
+            options += `<option value="head-mistress">Head Mistress</option>`;
+        }
+        if (!(grade >= 6 && grade <= 8)) {
+            options += `<option value="vice-principal">Vice Principal</option>`;
+        }
+        options += `<option value="principal">Principal</option>`;
+        
+        teacherDropdown.innerHTML = options;
+    }
+
+    if (smDropdown) {
+        let options = `<option value="">-- Select Authority to Escalate --</option>`;
+        
+        if (!(grade >= 6 && grade <= 8)) {
+            options += `<option value="vice-principal">Vice Principal</option>`;
+        }
+        options += `<option value="principal">Principal</option>`;
+        
+        smDropdown.innerHTML = options;
+    }
+
     // Show description ONLY to the active handler or the person who solved it
     const isHandler = incident.takenOver && incident.handler === currentUser.name;
     const isSolver = incident.status === 'solved' && (incident.solvedBy === currentUser.name || currentUser.role === 'principal');
