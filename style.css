@@ -1,0 +1,477 @@
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --secondary: #64748b;
+    --success: #22c55e;
+    --warning: #eab308;
+    --danger: #ef4444;
+    --info: #3b82f6;
+    --background: #f1f5f9;
+    --surface: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --border: #e2e8f0;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Role Switcher Nav */
+.role-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    display: flex;
+    justify-content: flex-start;
+    padding: 1rem;
+    gap: 0.75rem;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE 10+ */
+}
+
+.role-nav::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+}
+
+.role-btn {
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    color: var(--text-muted);
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+
+.role-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Layout Containers */
+.main-container {
+    max-width: 1200px;
+    margin: 80px auto 2rem;
+    padding: 0 1rem;
+}
+
+@media (max-width: 640px) {
+    .main-container {
+        margin-top: 70px;
+        padding: 0 0.75rem;
+    }
+}
+
+.view {
+    display: none;
+    animation: fadeIn 0.4s ease-out;
+}
+
+.view.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Common Components */
+.card {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 640px) {
+    .card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    gap: 0.5rem;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-success {
+    background: var(--success);
+    color: white;
+}
+
+.btn-warning {
+    background: var(--warning);
+    color: white;
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+}
+
+/* Utility Classes */
+.grid-2-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.flex-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+@media (max-width: 640px) {
+    .grid-2-col {
+        grid-template-columns: 1fr;
+    }
+
+    .flex-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .flex-group>* {
+        width: 100%;
+    }
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.form-control[readonly] {
+    background-color: #f8fafc;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   STUDENT PAGE UNIQUE STYLES
+   ======================================== */
+.student-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.student-header h1 {
+    color: var(--primary);
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.student-header p {
+    color: var(--text-muted);
+}
+
+.header-logo {
+    height: 100px;
+    margin-bottom: 1rem;
+    transition: height 0.2s;
+}
+
+@media (max-width: 640px) {
+    .header-logo {
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-logo {
+        height: 60px;
+    }
+}
+
+.upload-box {
+    border: 2px dashed var(--border);
+    padding: 2rem;
+    text-align: center;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: border-color 0.2s;
+    color: var(--text-muted);
+}
+
+.upload-box:hover {
+    border-color: var(--primary);
+}
+
+.info-banner {
+    background: #eff6ff;
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    color: var(--info);
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ========================================
+   TEACHER DASHBOARD UNIQUE STYLES
+   ======================================== */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 992px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.student-info-card {
+    background: linear-gradient(135deg, var(--surface) 0%, #f8fafc 100%);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+@media (max-width: 640px) {
+    .student-info-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        justify-items: center;
+    }
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.info-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.info-item .label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    display: block;
+}
+
+.info-item .value {
+    font-weight: 600;
+}
+
+.incident-list {
+    list-style: none;
+}
+
+.incident-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.75rem;
+}
+
+.status-tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.tag-pending {
+    background: #fef9c3;
+    color: #854d0e;
+}
+
+.tag-review {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.tag-solved {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.cctv-frame {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: var(--radius-sm);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cctv-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #0f0;
+    font-family: monospace;
+    font-size: 0.7rem;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 5px;
+}
+
+.cctv-placeholder-text {
+    color: #555;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* ========================================
+   PRINCIPAL VIEW UNIQUE STYLES
+   ======================================== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    text-align: center;
+}
+
+.stat-card .number {
+    font-size: 2rem;
+    font-weight: 800;
+    display: block;
+    color: var(--primary);
+}
+
+.stat-card .label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+/* Mobile Specific Tweaks */
+@media (max-width: 640px) {
+    .student-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .card {
+        padding: 1.25rem;
+    }
+
+    .info-list {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .info-list {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-group-mobile {
+        flex-direction: column;
+    }
+}

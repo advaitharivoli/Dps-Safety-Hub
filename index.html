@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Safety Hub – Smart Bullying Registry System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="school logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="role-nav">
+        <button class="role-btn active" onclick="switchRole('student')">Student View</button>
+        <button class="role-btn" onclick="switchRole('teacher')">Teacher/Coordinator</button>
+        <button class="role-btn" onclick="switchRole('senior-mistress')">Senior Mistress</button>
+        <button class="role-btn" onclick="switchRole('head-mistress')">Head Mistress</button>
+        <button class="role-btn" onclick="switchRole('vice-principal')">Vice Principal</button>
+        <button class="role-btn" onclick="switchRole('principal')">Principal View</button>
+    </nav>
+
+    <main class="main-container">
+
+        <!-- ========================================
+            1) STUDENT PAGE – REPORT INCIDENT
+            ======================================== -->
+        <section id="student-view" class="view active">
+            <div class="student-header">
+                <img src="school logo.png" alt="School Logo" class="header-logo">
+                <p style="font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; letter-spacing: 1px;">DELHI
+                    PUBLIC SCHOOL - BANGALORE SOUTH</p>
+                <h1>School Safety Hub</h1>
+                <p>Report an Incident</p>
+            </div>
+
+            <div class="card" style="max-width: 600px; margin-left: auto; margin-right: auto;">
+                <form id="incident-form">
+                    <div class="form-group">
+                        <label>Admission Number</label>
+                        <input type="text" id="adm-number" class="form-control" placeholder="Enter ID (e.g. B/11676)"
+                            value="B/" onfocus="seatCaret(this, 2)" oninput="handleAdmInput(this)"
+                            onkeydown="protectPrefix(event, this)" onpaste="handlePaste(event, this)">
+                    </div>
+
+                    <div class="grid-2-col">
+                        <div class="form-group">
+                            <label>Student Name</label>
+                            <input type="text" id="student-name" class="form-control" readonly
+                                placeholder="Auto-filled">
+                        </div>
+                        <div class="form-group">
+                            <label>Class & Section</label>
+                            <input type="text" id="student-class" class="form-control" readonly
+                                placeholder="Auto-filled">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Place of Incident</label>
+                        <input type="text" id="incident-place" class="form-control" placeholder="e.g. Playground">
+                    </div>
+
+                    <div class="grid-2-col">
+                        <div class="form-group">
+                            <label>Date of Incident</label>
+                            <input type="date" id="incident-date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Time of Incident (Optional)</label>
+                            <input type="time" id="incident-time" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="student-desc" class="form-control" rows="4"
+                            placeholder="Describe what happened..."></textarea>
+                    </div>
+
+                    <div class="info-banner">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="16" x2="12" y2="12" />
+                            <line x1="12" y1="8" x2="12.01" y2="8" />
+                        </svg>
+                        <span>If a camera exists in this area, footage will be auto-linked.</span>
+                    </div>
+
+                    <button type="button" class="btn btn-primary" style="width: 100%; font-size: 1.1rem;"
+                        onclick="handleSubmit()">Submit Report</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ========================================
+             2) TEACHER / COORDINATOR DASHBOARD
+             ======================================== -->
+        <section id="teacher-view" class="view">
+            <header
+                style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <img src="school logo.png" alt="Logo" class="header-logo" style="height: 60px;">
+                    <div>
+                        <p style="font-weight: 700; color: var(--primary); font-size: 0.8rem; margin-bottom: 0.2rem;">
+                            DELHI PUBLIC SCHOOL - BANGALORE SOUTH</p>
+                        <h2 style="font-size: 1.5rem;">Teacher Dashboard</h2>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Registry Management System</p>
+                    </div>
+                </div>
+                <div class="detail-status-badge" style="display: none;"></div>
+            </header>
+
+            <!-- Bio Screen for Teacher -->
+            <div class="bio-container"></div>
+
+            <div class="dashboard-grid">
+                <div class="main-panel">
+                    <ul class="incident-list">
+                        <!-- Populated by JS -->
+                    </ul>
+
+                    <div id="teacher-desc-container"
+                        style="margin-top: 1rem; background: #f8fafc; padding: 1.5rem; border-radius: var(--radius-sm); border-left: 5px solid var(--primary); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+                        <strong
+                            style="font-size: 0.8rem; color: var(--primary); text-transform: uppercase; display: block; margin-bottom: 0.5rem;">Incident
+                            Description:</strong>
+                        <p id="teacher-desc-preview" style="color: var(--text-main); font-style: italic; margin: 0;">
+                            Select a case to view the description.
+                        </p>
+                    </div>
+
+                    <div class="card" style="margin-top: 1rem; border: 1px solid var(--border);">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Escalation
+                            Actions</label>
+                        <div class="flex-group">
+                            <select id="escalation-level" class="form-control" style="flex: 1;">
+                                <option value="">-- Select Authority to Escalate --</option>
+                                <option value="senior-mistress">Senior Mistress</option>
+                                <option value="head-mistress">Head Mistress</option>
+                                <option value="vice-principal">Vice Principal</option>
+                                <option value="principal">Principal</option>
+                            </select>
+                            <button class="btn btn-danger" onclick="handleEscalate()">ESCALATE</button>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <div class="handler-display"
+                                style="display:none; margin-bottom: 0.5rem; padding: 0.5rem; background: #fffbeb; color: #92400e; border-radius: 4px; border: 1px solid #fcd34d; font-size: 0.9rem;">
+                                <strong>Taken Over By:</strong> <span class="handler-name">N/A</span>
+                            </div>
+
+                            <div class="flex-group">
+                                <button class="btn btn-success btn-solved" style="flex:1; display: none;"
+                                    onclick="handleSolve()">SOLVED</button>
+                                <button class="btn btn-warning btn-takeover" style="flex:1;"
+                                    onclick="handleTakeOver()">TAKE OVER</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel">
+                    <h3 style="margin-bottom: 1rem;">Camera Evidence</h3>
+                    <div class="cctv-frame">
+                        <div class="cctv-overlay">LIVE • CAM_PLAYGROUND • 2026-01-15</div>
+                        <div class="cctv-placeholder-text">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.5"
+                                style="margin-bottom: 1rem;">
+                                <path d="M23 7l-7 5 7 5V7z" />
+                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+                            </svg>
+                            <p style="color: #666">CCTV Feed Linked<br><small>Corridor 4A / Playground</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             SENIOR MISTRESS VIEW
+             ======================================== -->
+        <section id="senior-mistress-view" class="view">
+            <header
+                style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <img src="school logo.png" alt="Logo" class="header-logo" style="height: 60px;">
+                    <div>
+                        <p style="font-weight: 700; color: var(--primary); font-size: 0.8rem; margin-bottom: 0.2rem;">
+                            DELHI PUBLIC SCHOOL - BANGALORE SOUTH</p>
+                        <h2 style="font-size: 1.5rem;">Senior Mistress Dashboard</h2>
+                        <p style="color: var(--text-muted);">Escalation Monitoring</p>
+                    </div>
+                </div>
+                <div class="detail-status-badge" style="display: none;"></div>
+            </header>
+
+            <!-- Bio Screen for Senior Mistress -->
+            <div class="bio-container"></div>
+
+            <div class="dashboard-grid">
+                <div class="main-panel">
+                    <h3 style="margin-bottom: 1rem;">Incident Registry</h3>
+                    <ul class="incident-list">
+                        <!-- Populated by JS -->
+                    </ul>
+
+                    <div class="card" style="margin-top: 1rem; border: 1px solid var(--border);">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Escalation
+                            Actions</label>
+                        <div class="flex-group">
+                            <select id="escalation-level-sm" class="form-control" style="flex: 1;">
+                                <option value="">-- Select Authority to Escalate --</option>
+                                <option value="vice-principal">Vice Principal</option>
+                                <option value="principal">Principal</option>
+                            </select>
+                            <button class="btn btn-danger" onclick="handleEscalate()">ESCALATE</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel">
+                    <h3 style="color: var(--danger);">Case Management</h3>
+                    <div style="margin-top: 1.5rem;">
+                        <div class="handler-display"
+                            style="display:none; margin-bottom: 0.5rem; padding: 0.5rem; background: #fffbeb; color: #92400e; border-radius: 4px; border: 1px solid #fcd34d; font-size: 0.9rem;">
+                            <strong>Taken Over By:</strong> <span class="handler-name">N/A</span>
+                        </div>
+                        <div class="flex-group">
+                            <button class="btn btn-success btn-solved" style="flex:1; display: none;"
+                                onclick="handleSolve()">SOLVED</button>
+                            <button class="btn btn-warning btn-takeover" style="flex:1;" onclick="handleTakeOver()">TAKE
+                                OVER</button>
+                        </div>
+                    </div>
+                    <div
+                        style="background: #f8fafc; padding: 1.5rem; border-radius: var(--radius-sm); border-left: 5px solid var(--danger); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-top: 1rem;">
+                        <strong
+                            style="font-size: 0.8rem; color: var(--danger); text-transform: uppercase; display: block; margin-bottom: 0.5rem;">Incident
+                            Description:</strong>
+                        <p id="senior-mistress-desc" style="font-style: italic; margin: 0;">Select a case to view.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             HEAD MISTRESS VIEW
+             ======================================== -->
+        <section id="head-mistress-view" class="view">
+            <header
+                style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <img src="school logo.png" alt="Logo" class="header-logo" style="height: 60px;">
+                    <div>
+                        <p style="font-weight: 700; color: var(--primary); font-size: 0.8rem; margin-bottom: 0.2rem;">
+                            DELHI PUBLIC SCHOOL - BANGALORE SOUTH</p>
+                        <h2 style="font-size: 1.5rem;">Head Mistress Dashboard</h2>
+                        <p style="color: var(--text-muted);">Institutional Oversight</p>
+                    </div>
+                </div>
+                <div class="detail-status-badge" style="display: none;"></div>
+            </header>
+
+            <!-- Bio Screen for Head Mistress -->
+            <div class="bio-container"></div>
+
+            <div class="dashboard-grid">
+                <div class="main-panel">
+                    <h3 style="margin-bottom: 1rem;">Incident Registry</h3>
+                    <ul class="incident-list">
+                        <!-- Populated by JS -->
+                    </ul>
+
+                    <div class="card" style="margin-top: 1rem; border: 1px solid var(--border);">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Escalation
+                            Actions</label>
+                        <div class="flex-group">
+                            <select id="escalation-level-hm" class="form-control" style="flex: 1;">
+                                <option value="">-- Select Authority to Escalate --</option>
+                                <option value="principal">Principal</option>
+                            </select>
+                            <button class="btn btn-danger" onclick="handleEscalate()">ESCALATE</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel">
+                    <h3 style="color: var(--danger);">Case Management</h3>
+                    <div style="margin-top: 1.5rem;">
+                        <div class="handler-display"
+                            style="display:none; margin-bottom: 0.5rem; padding: 0.5rem; background: #fffbeb; color: #92400e; border-radius: 4px; border: 1px solid #fcd34d; font-size: 0.9rem;">
+                            <strong>Taken Over By:</strong> <span class="handler-name">N/A</span>
+                        </div>
+                        <div class="flex-group">
+                            <button class="btn btn-success btn-solved" style="flex:1; display: none;"
+                                onclick="handleSolve()">SOLVED</button>
+                            <button class="btn btn-warning btn-takeover" style="flex:1;" onclick="handleTakeOver()">TAKE
+                                OVER</button>
+                        </div>
+                    </div>
+                    <div
+                        style="background: #f8fafc; padding: 1.5rem; border-radius: var(--radius-sm); border-left: 5px solid var(--danger); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-top: 1rem;">
+                        <strong
+                            style="font-size: 0.8rem; color: var(--danger); text-transform: uppercase; display: block; margin-bottom: 0.5rem;">Incident
+                            Description:</strong>
+                        <p id="head-mistress-desc" style="font-style: italic; margin: 0;">Select a case to view.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             VICE PRINCIPAL VIEW
+             ======================================== -->
+        <section id="vice-principal-view" class="view">
+            <header
+                style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <img src="school logo.png" alt="Logo" class="header-logo" style="height: 60px;">
+                    <div>
+                        <p style="font-weight: 700; color: var(--primary); font-size: 0.8rem; margin-bottom: 0.2rem;">
+                            DELHI PUBLIC SCHOOL - BANGALORE SOUTH</p>
+                        <h2 style="font-size: 1.5rem;">Vice Principal Dashboard</h2>
+                        <p style="color: var(--text-muted);">Senior Management Review</p>
+                    </div>
+                </div>
+                <div class="detail-status-badge" style="display: none;"></div>
+            </header>
+
+            <!-- Bio Screen for Vice Principal -->
+            <div class="bio-container"></div>
+
+            <div class="dashboard-grid">
+                <div class="main-panel">
+                    <h3 style="margin-bottom: 1rem;">Incident Registry</h3>
+                    <ul class="incident-list">
+                        <!-- Populated by JS -->
+                    </ul>
+
+                    <div class="card" style="margin-top: 1rem; border: 1px solid var(--border);">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Escalation
+                            Actions</label>
+                        <div class="flex-group">
+                            <select id="escalation-level-vp" class="form-control" style="flex: 1;">
+                                <option value="">-- Select Authority to Escalate --</option>
+                                <option value="principal">Principal</option>
+                            </select>
+                            <button class="btn btn-danger" onclick="handleEscalate()">ESCALATE</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="side-panel">
+                    <h3 style="color: var(--danger);">Case Management</h3>
+                    <div style="margin-top: 1.5rem;">
+                        <div class="handler-display"
+                            style="display:none; margin-bottom: 0.5rem; padding: 0.5rem; background: #fffbeb; color: #92400e; border-radius: 4px; border: 1px solid #fcd34d; font-size: 0.9rem;">
+                            <strong>Taken Over By:</strong> <span class="handler-name">N/A</span>
+                        </div>
+                        <div class="flex-group">
+                            <button class="btn btn-success btn-solved" style="flex:1; display: none;"
+                                onclick="handleSolve()">SOLVED</button>
+                            <button class="btn btn-warning btn-takeover" style="flex:1;" onclick="handleTakeOver()">TAKE
+                                OVER</button>
+                        </div>
+                    </div>
+                    <div
+                        style="background: #f8fafc; padding: 1.5rem; border-radius: var(--radius-sm); border-left: 5px solid var(--danger); border-top: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-top: 1rem;">
+                        <strong
+                            style="font-size: 0.8rem; color: var(--danger); text-transform: uppercase; display: block; margin-bottom: 0.5rem;">Incident
+                            Description:</strong>
+                        <p id="vice-principal-desc" style="font-style: italic; margin: 0;">Select a case to view.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================
+             PRINCIPAL VIEW
+             ======================================== -->
+        <section id="principal-view" class="view">
+            <header
+                style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <img src="school logo.png" alt="Logo" class="header-logo" style="height: 60px;">
+                    <div>
+                        <p style="font-weight: 700; color: var(--primary); font-size: 0.8rem; margin-bottom: 0.2rem;">
+                            DELHI PUBLIC SCHOOL - BANGALORE SOUTH</p>
+                        <h2 style="font-size: 1.8rem;">Principal's Executive Overview</h2>
+                        <p style="color: var(--text-muted)">Final Authority Monitoring</p>
+                    </div>
+                </div>
+                <div class="detail-status-badge" style="display: none;"></div>
+            </header>
+
+            <div class="stats-grid">
+                <div class="card stat-card"><span id="total-cases-count" class="number">0</span><span
+                        class="label">Total Cases</span></div>
+                <div class="card stat-card"><span id="pending-cases-count" class="number"
+                        style="color: var(--warning);">0</span><span class="label">Pending</span></div>
+                <div class="card stat-card"><span id="escalated-cases-count" class="number"
+                        style="color: var(--danger);">0</span><span class="label">Escalated</span></div>
+                <div class="card stat-card"><span id="solved-cases-count" class="number"
+                        style="color: var(--success);">0</span><span class="label">Solved</span></div>
+            </div>
+
+            <!-- Bio Screen for Principal -->
+            <div class="bio-container"></div>
+
+            <div class="dashboard-grid">
+                <div class="main-panel">
+                    <h3 style="margin-bottom: 1.5rem;">Case Registry</h3>
+                    <ul class="incident-list">
+                        <!-- Populated by JS -->
+                    </ul>
+                </div>
+
+                <div class="side-panel">
+                    <h3 style="color: var(--danger);">Case Management</h3>
+                    <div style="margin-top: 1.5rem;">
+                        <div class="handler-display"
+                            style="display:none; margin-bottom: 0.5rem; padding: 0.5rem; background: #fffbeb; color: #92400e; border-radius: 4px; border: 1px solid #fcd34d; font-size: 0.9rem;">
+                            <strong>Taken Over By:</strong> <span class="handler-name">N/A</span>
+                        </div>
+                        <div class="flex-group">
+                            <button class="btn btn-success btn-solved" style="flex:1; display: none;"
+                                onclick="handleSolve()">SOLVED (Final)</button>
+                            <button class="btn btn-warning btn-takeover" style="flex:1;" onclick="handleTakeOver()">TAKE
+                                FINAL ACTION</button>
+                        </div>
+                    </div>
+                    <div
+                        style="background: #f8fafc; padding: 1.5rem; border-radius: var(--radius-sm); border-left: 5px solid var(--danger); margin-top: 1rem;">
+                        <strong>Description:</strong>
+                        <p id="principal-desc"
+                            style="font-style: italic; border-top: 1px solid var(--border); padding-top: 10px; margin-top: 0.5rem;">
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer
+        style="text-align: center; padding: 2rem 1rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 3rem;">
+        <p style="font-weight: 600; font-size: 1.1rem; color: var(--primary);">Made by: A. Advaith 7P</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">© 2026 School Safety Hub - Smart Bullying Registry System</p>
+
+        <div style="margin-top: 1rem;">
+            <button id="clear-data-btn" class="btn" onclick="clearPastData()"
+                style="padding: 0.6rem 0.9rem; font-weight:600;">Clear Past Data</button>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
