@@ -3,7 +3,7 @@
 A modern, professional, and secure bullying reporting and registry system designed for schools. This project demonstrates a multi-role workflow from student reporting to principal-level final actions, integrated with mock CCTV evidence.
 
 ## 🚀 Live Demo
-You can view the live demo here: **[Insert Your GitHub Pages Link Here After Publishing]**
+You can view the live demo here: **https://advaitharivoli.github.io/Dps-Safety-Hub/**
 
 ## 🌟 Key Features
 
